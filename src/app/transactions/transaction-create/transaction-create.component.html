@@ -1,1 +1,15 @@
-<h2>Transaction create component</h2>
+<mat-card>
+  <mat-form-field>
+    <input matInput type="text" #transactionAmount>
+    <mat-select #transactionType>
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{food.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onTransactionCreate(transactionAmount, transactionType)">
+    Add Expense
+  </button>
+</mat-card>
+
+<p> {{ newTransaction }} </p>
