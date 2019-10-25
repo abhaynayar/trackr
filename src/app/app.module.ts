@@ -28,7 +28,7 @@ import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
     MatButtonModule,
     MatSelectModule,
     MatToolbarModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

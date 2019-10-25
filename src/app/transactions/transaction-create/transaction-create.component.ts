@@ -15,12 +15,15 @@ export class TransactionCreateComponent {
   newTransaction = '';
 
   foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
+    {value: 'steak-0', viewValue: 'Food'},
+    {value: 'pizza-1', viewValue: 'Travel'},
+    {value: 'tacos-2', viewValue: 'Misc.'}
   ];
 
-  onTransactionCreate(transactionAmount: HTMLInputElement, transactionType: HTMLSelectElement){
+  onTransactionCreate(transactionAmount: HTMLInputElement, transactionType: HTMLSelectElement) {
+    // if (form.invalid) {
+    //   return;
+    // }
     this.newTransaction = transactionAmount.value + ' ' + transactionType.value;
   }
 }

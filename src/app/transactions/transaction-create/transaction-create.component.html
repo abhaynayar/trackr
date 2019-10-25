@@ -1,15 +1,22 @@
 <mat-card>
-  <mat-form-field>
-    <input matInput type="text" #transactionAmount>
-    <mat-select #transactionType>
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{food.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="onTransactionCreate(transactionAmount, transactionType)">
-    Add Expense
-  </button>
+  <form>
+    <mat-form-field>
+      <mat-select required placeholder = "Type" #transactionType>
+        <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{food.viewValue}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" required matInput placeholder="Amount" #transactionAmount>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="onTransactionCreate(transactionAmount, transactionType)">
+      Add Expense
+    </button>
+  </form>
 </mat-card>
 
 <p> {{ newTransaction }} </p>
