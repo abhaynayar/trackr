@@ -12,6 +12,8 @@ export interface Food {
 })
 export class TransactionCreateComponent {
 
+  enteredType = '';
+  enteredAmount = '';
   newTransaction = '';
 
   foods: Food[] = [
@@ -21,9 +23,6 @@ export class TransactionCreateComponent {
   ];
 
   onTransactionCreate(transactionAmount: HTMLInputElement, transactionType: HTMLSelectElement) {
-    // if (form.invalid) {
-    //   return;
-    // }
-    this.newTransaction = transactionAmount.value + ' ' + transactionType.value;
+    this.newTransaction = this.enteredType + ' ' + this.enteredAmount;
   }
 }

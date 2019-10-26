@@ -1,0 +1,9 @@
+<mat-accordion multi="true" *ngIf="transactions.length > 0">
+  <mat-expansion-panel *ngFor="let transaction of transactions">
+    <mat-expansion-panel-header>
+      {{ transaction.type }}
+    </mat-expansion-panel-header>
+    <p>{{ transaction.amount }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="mat-body-1 info-text" *ngIf="transactions.length <= 0">No transactions added yet</p>

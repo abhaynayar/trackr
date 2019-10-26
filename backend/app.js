@@ -2,15 +2,9 @@ const express = require('express');
 
 const app = express();
 
-// middleware
-
-app.use((req,res,next) => {
-  console.log("first middleware");
-  next();
-});
-
-app.use((req,res,next) => {
-  res.send("hello from express");
+app.use('/api/transactions',(req,res,next) => {
+  const transactions =
+  res.json();
 });
 
 module.exports = app;

@@ -1,7 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { MatInputModule, MatCardModule, MatButtonModule, MatSelectModule, MatToolbarModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+
+import {
+  MatInputModule,
+  MatCardModule,
+  MatButtonModule,
+  MatSelectModule,
+  MatToolbarModule,
+  MatExpansionModule
+} from '@angular/material';
+
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +20,7 @@ import { TransactionCreateComponent } from './transactions/transaction-create/tr
 import { HeaderComponent } from './header/header.component';
 import { MyBarChartComponent } from './my-bar-chart/my-bar-chart.component';
 import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
+import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +28,8 @@ import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
     TransactionCreateComponent,
     HeaderComponent,
     MyBarChartComponent,
-    MyLineChartComponent
+    MyLineChartComponent,
+    TransactionListComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +41,8 @@ import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
     MatSelectModule,
     MatToolbarModule,
     ChartsModule,
+    MatExpansionModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
