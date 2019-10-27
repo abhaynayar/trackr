@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 export interface Food {
   value: string;
@@ -12,17 +12,24 @@ export interface Food {
 })
 export class TransactionCreateComponent {
 
-  enteredType = '';
-  enteredAmount = '';
-  newTransaction = '';
-
   foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Food'},
-    {value: 'pizza-1', viewValue: 'Travel'},
-    {value: 'tacos-2', viewValue: 'Misc.'}
+    { value: 'food', viewValue: 'Food' },
+    { value: 'travel', viewValue: 'Travel' },
+    { value: 'laundry', viewValue: 'Laundry' }
   ];
 
-  onTransactionCreate(transactionAmount: HTMLInputElement, transactionType: HTMLSelectElement) {
-    this.newTransaction = this.enteredType + ' ' + this.enteredAmount;
+  enteredType = '';
+  enteredAmount = '';
+
+  @Output() transactionCreated = new EventEmitter();
+
+  onTransactionCreate() {
+
+    const transaction = {
+      type: this.enteredType,
+      amount: this.enteredAmount
+    };
+
+    this.transactionCreated.emit(transaction);
   }
 }

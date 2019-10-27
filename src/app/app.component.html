@@ -1,7 +1,7 @@
 <app-header></app-header>
 <main>
-  <app-transaction-create></app-transaction-create>
-  <app-transaction-list></app-transaction-list>
+  <app-transaction-create (transactionCreated)="onTransactionAdded($event)"></app-transaction-create>
+  <app-transaction-list [transactions]="storedTransactions"></app-transaction-list>
 </main>
 
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-transaction-list',
@@ -8,10 +8,10 @@ import { Component } from '@angular/core';
 
 export class TransactionListComponent {
   // transactions = [
-  //   { title: 'First transaction', content: 'food' },
-  //   { title: 'Second transaction', content: 'food' },
-  //   { title: 'Third transaction', content: 'food' }
+  //   { type: 'First transaction', amount: 'food' },
+  //   { type: 'Second transaction', amount: 'food' },
+  //   { type: 'Third transaction', amount: 'food' }
   // ];
 
-  transactions = [];
+  @Input() transactions = [];
 }

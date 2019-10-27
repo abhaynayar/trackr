@@ -47,4 +47,4 @@ import { TransactionListComponent } from './transactions/transaction-list/transa
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
