@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { TransactionsService } from '../transactions.service';
+import { MyLineChartComponent } from 'src/app/my-line-chart/my-line-chart.component';
 
 export interface Food {
   value: string;
@@ -21,15 +24,15 @@ export class TransactionCreateComponent {
   enteredType = '';
   enteredAmount = '';
 
-  @Output() transactionCreated = new EventEmitter();
+  constructor(public transactionsService: TransactionsService) {}
 
-  onTransactionCreate() {
+  onTransactionCreate(form: NgForm) {
 
-    const transaction = {
-      type: this.enteredType,
-      amount: this.enteredAmount
-    };
+    if (form.invalid) {
+      return;
+    }
 
-    this.transactionCreated.emit(transaction);
+    this.transactionsService.addTransaction(form.value.enteredType, form.value.enteredAmount);
+    form.resetForm();
   }
 }

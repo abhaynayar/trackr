@@ -1,5 +1,9 @@
 mat-form-field {
-  padding:1rem;
+  padding: 1rem 0;
+}
+
+mat-card {
+  width: 280px;
 }
 
 body {

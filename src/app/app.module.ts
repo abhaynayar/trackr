@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   MatInputModule,
@@ -21,6 +22,7 @@ import { HeaderComponent } from './header/header.component';
 import { MyBarChartComponent } from './my-bar-chart/my-bar-chart.component';
 import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
+import { TransactionsService } from './transactions/transactions.service';
 
 @NgModule({
   declarations: [
@@ -42,9 +44,12 @@ import { TransactionListComponent } from './transactions/transaction-list/transa
     MatToolbarModule,
     ChartsModule,
     MatExpansionModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    // TransactionsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
