@@ -4,33 +4,41 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Transaction } from './transaction.model';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class TransactionsService {
   private transactions: Transaction[] = [];
-  private transactionsUpdated = new Subject<Transaction[]>();
+  private transactionsUpdated = new Subject<{transactions: Transaction[], transactionCount: number}>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  getTransactions() {
+  getTransactions(transactionPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${transactionPerPage}&page=${currentPage}`;
     // return [...this.transactions];
     this.http
-      .get<{message: string, transactions: any}>(
-        'http://localhost:3000/api/transactions'
+      .get<{message: string, transactions: any, maxTransactions: number}>(
+        'http://localhost:3000/api/transactions' + queryParams
       )
       .pipe(map((transactionData) => {
-        return transactionData.transactions.map(transaction => {
-          return {
-            type: transaction.type,
-            amount: transaction.amount,
-            id: transaction._id
-          };
+        return {
+          transactions: transactionData.transactions.map(transaction => {
+            return {
+              type: transaction.type,
+              amount: transaction.amount,
+              id: transaction._id
+            };
 
+          }),
+          maxTransactions: transactionData.maxTransactions};
+        })
+      )
+      .subscribe((transformedTransactionData) => {
+        this.transactions = transformedTransactionData.transactions;
+        this.transactionsUpdated.next({
+          transactions: [...this.transactions],
+          transactionCount: transformedTransactionData.maxTransactions
         });
-      }))
-      .subscribe((transformedTransactions) => {
-        this.transactions = transformedTransactions;
-        this.transactionsUpdated.next([...this.transactions]);
       });
   }
 
@@ -38,23 +46,28 @@ export class TransactionsService {
     return this.transactionsUpdated.asObservable();
   }
 
+  getTransaction(id: string) {
+    return this.http.get<{_id: string, type: string, amount: string}>('http://localhost:3000/api/transactions/' + id);
+  }
+
   addTransaction(type: string, amount: string) {
     const transaction: Transaction = {id: null, type, amount};
     this.http.post<{message: string, transactionId: string}>('http://localhost:3000/api/transactions', transaction)
     .subscribe((responseData) => {
-      const id = responseData.transactionId;
-      transaction.id = id;
-      this.transactions.push(transaction);
-      this.transactionsUpdated.next([...this.transactions]);
+      this.router.navigate(['/']);
     });
   }
 
-  deleteTransaction(transactionId: string) {
-    this.http.delete('http://localhost:3000/api/transactions/' + transactionId)
-      .subscribe(() => {
-        const updatedTransactions = this.transactions.filter(transaction => transaction.id !== transactionId);
-        this.transactions = updatedTransactions;
-        this.transactionsUpdated.next([...this.transactions]);
+  updateTransaction(id: string, type: string, amount: string) {
+    const transaction: Transaction = { id: id, type: type, amount: amount };
+    this.http
+      .put('http://localhost:3000/api/transactions/' + id, transaction)
+      .subscribe(response => {
+        this.router.navigate(['/']);
       });
+  }
+
+  deleteTransaction(transactionId: string) {
+    return this.http.delete('http://localhost:3000/api/transactions/' + transactionId);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material';
 
 import { Transaction } from '../transaction.model';
 import { TransactionsService } from '../transactions.service';
@@ -19,20 +20,38 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   // ];
 
   transactions: Transaction[] = [];
+  isLoading = false;
+  totalTransactions = 0;
+  transactionsPerPage = 5;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
   private transactionsSub: Subscription;
 
   constructor(public transactionsService: TransactionsService) {}
 
   ngOnInit() {
-    this.transactionsService.getTransactions();
+    this.isLoading = true;
+    this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
     this.transactionsSub = this.transactionsService.getTransactionUpdateListener()
-    .subscribe((transactions: Transaction[]) => {
-      this.transactions = transactions;
+    .subscribe((transactionData: {transactions: Transaction[], transactionCount}) => {
+      this.isLoading = false;
+      this.totalTransactions = transactionData.transactionCount;
+      this.transactions = transactionData.transactions;
     });
   }
 
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.transactionsPerPage = pageData.pageSize;
+    this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
+  }
+
   onDelete(transactionId: string) {
-    this.transactionsService.deleteTransaction(transactionId);
+    this.isLoading = true;
+    this.transactionsService.deleteTransaction(transactionId).subscribe(() => {
+      this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
+    });
   }
 
   ngOnDestroy() {

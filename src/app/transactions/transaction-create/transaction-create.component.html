@@ -1,9 +1,10 @@
 <mat-card>
-  <form (submit)="onTransactionCreate(transactionForm)" #transactionForm="ngForm">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveTransaction(transactionForm)" #transactionForm="ngForm" *ngIf="!isLoading">
     <mat-form-field >
       <mat-select
         name="enteredType"
-        ngModel
+        [ngModel]="transaction?.type"
         placeholder="Type"
         required
         #type="ngModel">
@@ -17,10 +18,11 @@
 
     <mat-form-field>
       <input
-        ngModel
+
+        [ngModel]="transaction?.amount"
         name="enteredAmount"
         placeholder="Amount"
-        matInput type="text"
+        matInput type="number"
         required
         #amount="ngModel">
 

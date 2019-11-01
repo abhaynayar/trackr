@@ -1,4 +1,4 @@
-<div>
+<!--<div>
   <div>
     <canvas baseChart width="200" height="50"
       [datasets]="lineChartData"
@@ -8,4 +8,9 @@
       [chartType]="lineChartType"
     ></canvas>
   </div>
+</div>
+-->
+
+<div *ngIf="chart">
+  <canvas id="canvas" height="400px" width="800px">{{ chart }}</canvas>
 </div>

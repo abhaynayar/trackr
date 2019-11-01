@@ -10,7 +10,11 @@ import {
   MatButtonModule,
   MatSelectModule,
   MatToolbarModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatProgressSpinner,
+  MatProgressSpinnerModule,
+  MatPaginatorModule,
+  MatPaginator
 } from '@angular/material';
 
 import { ChartsModule } from 'ng2-charts';
@@ -44,6 +48,8 @@ import { TransactionsService } from './transactions/transactions.service';
     MatToolbarModule,
     ChartsModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
     FormsModule,
     HttpClientModule
   ],

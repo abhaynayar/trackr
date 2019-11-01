@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TransactionsService } from '../transactions.service';
-import { MyLineChartComponent } from 'src/app/my-line-chart/my-line-chart.component';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Transaction } from '../transaction.model';
 
 export interface Food {
   value: string;
@@ -13,26 +14,59 @@ export interface Food {
   templateUrl: './transaction-create.component.html',
   styleUrls: ['./transaction-create.component.css']
 })
-export class TransactionCreateComponent {
+export class TransactionCreateComponent implements OnInit {
 
   foods: Food[] = [
     { value: 'food', viewValue: 'Food' },
     { value: 'travel', viewValue: 'Travel' },
-    { value: 'laundry', viewValue: 'Laundry' }
+    { value: 'laundry', viewValue: 'Laundry' },
+    { value: 'savings', viewValue: 'Savings' },
+    { value: 'groceries', viewValue: 'Groceries' },
+    { value: 'rent', viewValue: 'Rent' },
+    { value: 'medical', viewValue: 'Medical' },
+    { value: 'shopping', viewValue: 'Shoppings' },
+    { value: 'misc', viewValue: 'Miscellaneous' }
   ];
 
   enteredType = '';
   enteredAmount = '';
+  private mode = 'create';
+  private transactionId: string;
+  transaction: Transaction;
+  isLoading = false;
 
-  constructor(public transactionsService: TransactionsService) {}
+  constructor(public transactionsService: TransactionsService, public route: ActivatedRoute) {}
 
-  onTransactionCreate(form: NgForm) {
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('transactionId')) {
+        this.mode = 'edit';
+        this.transactionId = paramMap.get('transactionId');
+        this.isLoading = true;
+        this.transactionsService.getTransaction(this.transactionId).subscribe(transactionData => {
+          this.isLoading = false;
+          this.transaction = { id: transactionData._id, type: transactionData.type, amount: transactionData.amount};
+        });
+      } else {
+        this.mode = 'create';
+        this.transactionId = null;
+      }
+    });
+
+  }
+
+  onSaveTransaction(form: NgForm) {
 
     if (form.invalid) {
       return;
     }
 
-    this.transactionsService.addTransaction(form.value.enteredType, form.value.enteredAmount);
+    this.isLoading = true;
+    if (this.mode === 'create') {
+      this.transactionsService.addTransaction(form.value.enteredType, form.value.enteredAmount);
+    } else {
+      this.transactionsService.updateTransaction(this.transactionId, form.value.enteredType, form.value.enteredAmount);
+    }
     form.resetForm();
   }
 }
