@@ -1,0 +1,23 @@
+mat-toolbar {
+  height: 150px;
+  overflow: y auto;
+  position: absolute;
+  bottom: 0;
+}
+
+main {
+  position: relative;
+  min-height: 50vh;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.zing {
+  background-color: rgb(139, 5, 45);
+}
+
+img {
+  margin: 2rem;
+}

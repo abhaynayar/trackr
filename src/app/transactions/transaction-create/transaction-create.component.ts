@@ -24,7 +24,7 @@ export class TransactionCreateComponent implements OnInit {
     { value: 'groceries', viewValue: 'Groceries' },
     { value: 'rent', viewValue: 'Rent' },
     { value: 'medical', viewValue: 'Medical' },
-    { value: 'shopping', viewValue: 'Shoppings' },
+    { value: 'shopping', viewValue: 'Shopping' },
     { value: 'misc', viewValue: 'Miscellaneous' }
   ];
 
@@ -45,7 +45,11 @@ export class TransactionCreateComponent implements OnInit {
         this.isLoading = true;
         this.transactionsService.getTransaction(this.transactionId).subscribe(transactionData => {
           this.isLoading = false;
-          this.transaction = { id: transactionData._id, type: transactionData.type, amount: transactionData.amount};
+          this.transaction = {
+            id: transactionData._id,
+            type: transactionData.type,
+            amount: transactionData.amount,
+            creator: transactionData.creator};
         });
       } else {
         this.mode = 'create';

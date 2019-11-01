@@ -1,16 +1,18 @@
 const express = require('express');
+
 const Transaction = require('../models/transaction');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
 
-router.post('', (req,res,next) => {
+router.post('', checkAuth, (req,res,next) => {
   const transaction = new Transaction({
     _id: req.body.id,
     type: req.body.type,
-    amount: req.body.amount
+    amount: req.body.amount,
+    creator: req.userData.userId
   });
-
   transaction.save().then(createdTransaction => {
     res.status(201).json({
       message: 'Trasaction added successfully',
@@ -19,21 +21,27 @@ router.post('', (req,res,next) => {
   });
 });
 
-router.put('/:id',(req,res,next) => {
+router.put('/:id', checkAuth, (req,res,next) => {
   const transaction = new Transaction({
     _id: req.body.id,
     type: req.body.type,
-    amount: req.body.amount
+    amount: req.body.amount,
+    creator: req.userData.userId
   });
-  Transaction.updateOne({_id: req.params.id}, transaction).then(result => {
-    res.status(200).json({message: 'Update successful!'});
+  Transaction.updateOne({ _id: req.params.id, creator: req.userData.userId }, transaction)
+  .then(result => {
+    if(result.nModified > 0) {
+      res.status(200).json({ message: 'Update successful!' });
+    } else {
+      res.status(401).json({ message: 'Not Authorized!' });
+    }
   });
 });
 
-router.get('', (req,res,next) => {
+router.get('', checkAuth, (req,res,next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = req.query.page;
-  const transactionQuery = Transaction.find();
+  const transactionQuery = Transaction.find({creator: req.userData.userId});
 
   let fetchedTransactions;
 
@@ -55,20 +63,24 @@ router.get('', (req,res,next) => {
   });
 });
 
-router.get("/:id", (req,res,next)=> {
+router.get("/:id", checkAuth, (req,res,next) => {
   Transaction.findById(req.params.id).then(transaction => {
     if(transaction) {
       res.status(200).json(transaction);
     } else {
-      res.status(404).json({message: 'Transaction not found!'});
+      res.status(404).json({ message: 'Transaction not found!' });
     }
   })
 })
 
-router.delete('/:id', (req,res,next) => {
-  Transaction.deleteOne({_id: req.params.id}).then(result => {
-    console.log(req.params.id);
-    res.status(200).json({ message: "Transaction deleted!" });
+router.delete('/:id', checkAuth, (req,res,next) => {
+  Transaction.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+  .then(result => {
+    if(result.n > 0) {
+      res.status(200).json({ message: 'Delete successful!' });
+    } else {
+      res.status(401).json({ message: 'Not Authorized!' });
+    }
   });
 });
 

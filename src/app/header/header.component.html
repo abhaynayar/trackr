@@ -1,9 +1,22 @@
 <mat-toolbar color="primary" role="heading">
   <span><a mat-button routerLink="/">trackr</a></span>
+  <button mat-icon-button *ngIf="userIsAuthenticated" routerLink="/create" routerLinkActive="zing">
+    +
+  </button>
+
   <span class="spacer"></span>
   <ul>
-    <li>
-      <a mat-button routerLink="/create" routerLinkActive="zing">+</a>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/login" routerLinkActive="zing">Login</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/signup" routerLinkActive="zing">Signup</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/list" routerLinkActive="zing">List</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <button mat-button (click)="onLogout()">Logout</button>
     </li>
   </ul>
 </mat-toolbar>

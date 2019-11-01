@@ -38,17 +38,19 @@ export class MyLineChartComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 7];
 
+
   ngOnInit() {
     this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
     this.transactionsSub = this.transactionsService.getTransactionUpdateListener()
     .subscribe((transactionData: {transactions: Transaction[], transactionCount}) => {
+      const arr = new Array<string>(this.transactionsPerPage);
       this.transactions = transactionData.transactions;
       const blah = this.transactions.map(item => parseInt(item.amount, 10));
 
       this.chart = new Chart('canvas', {
         type: 'line',
         data: {
-          labels: this.lineChartLabels,
+          labels: arr,
           datasets: [
             {
               data: blah,

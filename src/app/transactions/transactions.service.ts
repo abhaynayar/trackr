@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { Transaction } from './transaction.model';
 import { Router } from '@angular/router';
+
+import { environment } from '../../environments/environment';
+import { Transaction } from './transaction.model';
+
+const BACKEND_URL = environment.apiUrl + '/transactions/';
 
 @Injectable({providedIn: 'root'})
 export class TransactionsService {
@@ -15,10 +18,9 @@ export class TransactionsService {
 
   getTransactions(transactionPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${transactionPerPage}&page=${currentPage}`;
-    // return [...this.transactions];
     this.http
       .get<{message: string, transactions: any, maxTransactions: number}>(
-        'http://localhost:3000/api/transactions' + queryParams
+        BACKEND_URL + queryParams
       )
       .pipe(map((transactionData) => {
         return {
@@ -26,7 +28,8 @@ export class TransactionsService {
             return {
               type: transaction.type,
               amount: transaction.amount,
-              id: transaction._id
+              id: transaction._id,
+              creator: transaction.creator
             };
 
           }),
@@ -34,6 +37,7 @@ export class TransactionsService {
         })
       )
       .subscribe((transformedTransactionData) => {
+        console.log(transformedTransactionData);
         this.transactions = transformedTransactionData.transactions;
         this.transactionsUpdated.next({
           transactions: [...this.transactions],
@@ -47,27 +51,32 @@ export class TransactionsService {
   }
 
   getTransaction(id: string) {
-    return this.http.get<{_id: string, type: string, amount: string}>('http://localhost:3000/api/transactions/' + id);
+    return this.http.get<{
+      _id: string;
+      type: string;
+      amount: string;
+      creator: string;
+    }>(BACKEND_URL + id);
   }
 
   addTransaction(type: string, amount: string) {
-    const transaction: Transaction = {id: null, type, amount};
-    this.http.post<{message: string, transactionId: string}>('http://localhost:3000/api/transactions', transaction)
+    const transaction: Transaction = {id: null, type, amount, creator: null };
+    this.http.post<{message: string, transactionId: string}>(BACKEND_URL, transaction)
     .subscribe((responseData) => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/list']);
     });
   }
 
   updateTransaction(id: string, type: string, amount: string) {
-    const transaction: Transaction = { id: id, type: type, amount: amount };
+    const transaction: Transaction = { id, type, amount, creator: null };
     this.http
-      .put('http://localhost:3000/api/transactions/' + id, transaction)
+      .put(BACKEND_URL + id, transaction)
       .subscribe(response => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/list']);
       });
   }
 
   deleteTransaction(transactionId: string) {
-    return this.http.delete('http://localhost:3000/api/transactions/' + transactionId);
+    return this.http.delete(BACKEND_URL + transactionId);
   }
 }

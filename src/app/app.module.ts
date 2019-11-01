@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {
   MatInputModule,
@@ -23,19 +23,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionCreateComponent } from './transactions/transaction-create/transaction-create.component';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 import { MyBarChartComponent } from './my-bar-chart/my-bar-chart.component';
 import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { TransactionsService } from './transactions/transactions.service';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionCreateComponent,
     HeaderComponent,
+    FooterComponent,
     MyBarChartComponent,
     MyLineChartComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +61,7 @@ import { TransactionsService } from './transactions/transactions.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [
-    // TransactionsService
-  ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
