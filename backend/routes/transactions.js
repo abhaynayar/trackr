@@ -53,7 +53,7 @@ router.get('', checkAuth, (req,res,next) => {
 
   transactionQuery.then(documents => {
     fetchedTransactions = documents;
-    return Transaction.count();
+    return Transaction.count({ creator: req.userData.userId });
   }).then(count => {
       res.status(200).json({
       message: "Transactions fetched succesfully!",

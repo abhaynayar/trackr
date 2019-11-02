@@ -31,7 +31,6 @@ export class TransactionsService {
               id: transaction._id,
               creator: transaction.creator
             };
-
           }),
           maxTransactions: transactionData.maxTransactions};
         })

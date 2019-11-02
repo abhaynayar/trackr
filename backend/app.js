@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -17,6 +18,7 @@ mongoose.connect('mongodb+srv://abhay:' + process.env.MONGO_ATLAS_PW + '@trackr-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', express.static(path.join(__dirname, 'angular')));
 
 // for bypassing CORS
 
@@ -29,5 +31,8 @@ app.use((req,res,next) => {
 
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/user', userRoutes);
+app.use((req,res,next) => {
+  res.sendFile(path.join(__dirname, 'angular','index.html'));
+});
 
 module.exports = app;
