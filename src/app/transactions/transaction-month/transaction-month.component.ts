@@ -8,17 +8,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
-  selector: 'app-transaction-list',
-  templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.css']
+  selector: 'app-transaction-month',
+  templateUrl: './transaction-month.component.html',
+  styleUrls: ['./transaction-month.component.css']
 })
 
-export class TransactionListComponent implements OnInit, OnDestroy {
-  // transactions = [
-  //   { type: 'First transaction', amount: 'food' },
-  //   { type: 'Second transaction', amount: 'food' },
-  //   { type: 'Third transaction', amount: 'food' }
-  // ];
+export class TransactionMonthComponent {} /* implements OnInit, OnDestroy {
 
   transactions: Transaction[] = [];
   isLoading = false;
@@ -36,7 +31,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
+    this.transactionsService.getTransactions(null, null);
     this.userId = this.authService.getUserId();
     this.transactionsSub = this.transactionsService.getTransactionUpdateListener()
     .subscribe((transactionData: {transactions: Transaction[], transactionCount}) => {
@@ -64,8 +59,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.transactionsService.deleteTransaction(transactionId).subscribe(() => {
       this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
-    }, () => {
-      this.isLoading = false;
     });
   }
 
@@ -73,3 +66,4 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     this.transactionsSub.unsubscribe();
   }
 }
+*/

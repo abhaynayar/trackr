@@ -16,8 +16,8 @@ export class TransactionsService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getTransactions(transactionPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${transactionPerPage}&page=${currentPage}`;
+  getTransactions(transactionPerPage?: number, currentPage?: number) {
+    const queryParams = `?&pagesize=${transactionPerPage}&page=${currentPage}`;
     this.http
       .get<{message: string, transactions: any, maxTransactions: number}>(
         BACKEND_URL + queryParams
@@ -44,6 +44,26 @@ export class TransactionsService {
         });
       });
   }
+
+  // getTransactionsAll() {
+  //   this.http
+  //     .get<{ message: string; posts: any }>(BACKEND_URL + 'transactions')
+  //     .pipe(
+  //       map(postData => {
+  //         return postData.posts.map(post => {
+  //           return {
+  //             title: post.title,
+  //             content: post.content,
+  //             id: post._id
+  //           };
+  //         });
+  //       })
+  //     )
+  //     .subscribe(transformedPosts => {
+  //       this.posts = transformedPosts;
+  //       this.postsUpdated.next([...this.posts]);
+  //     });
+  // }
 
   getTransactionUpdateListener() {
     return this.transactionsUpdated.asObservable();

@@ -14,7 +14,10 @@ import {
   MatProgressSpinner,
   MatProgressSpinnerModule,
   MatPaginatorModule,
-  MatPaginator
+  MatPaginator,
+  MatDialog,
+  MatDialogModule,
+  MatBottomSheetModule
 } from '@angular/material';
 
 import { ChartsModule } from 'ng2-charts';
@@ -31,6 +34,9 @@ import { TransactionsService } from './transactions/transactions.service';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { TransactionMonthComponent } from './transactions/transaction-month/transaction-month.component';
+import { ErrorInterceptor } from './error-interceptor';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -42,8 +48,10 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MyBarChartComponent,
     MyLineChartComponent,
     TransactionListComponent,
+    TransactionMonthComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,10 +66,16 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatDialogModule,
+    MatBottomSheetModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule {}

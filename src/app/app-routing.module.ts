@@ -7,15 +7,18 @@ import { TransactionCreateComponent } from './transactions/transaction-create/tr
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth.guard';
+import { TransactionMonthComponent } from './transactions/transaction-month/transaction-month.component';
 
 const routes: Routes = [
   { path: 'list', component: TransactionListComponent, canActivate: [AuthGuard] },
+  { path: 'month', component: TransactionMonthComponent, canActivate: [AuthGuard] },
   { path: 'create', component: TransactionCreateComponent, canActivate: [AuthGuard] },
   { path: 'edit/:transactionId', component: TransactionCreateComponent, canActivate: [AuthGuard]  },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: '**', component: MyBarChartComponent },
+
 /*
+  { path: '**', component: MyBarChartComponent },
   { path: 'bar-chart', component: MyBarChartComponent },
   { path: 'line-chart', component: MyLineChartComponent },
   { path: '**', component: MyLineChartComponent },

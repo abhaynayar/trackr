@@ -37,17 +37,16 @@ export class AuthService {
   createUser(email: string, password: string) {
     const authData: AuthData = {email, password};
     this.http.post(BACKEND_URL + 'signup', authData)
-      .subscribe(response => {
-        console.log(response);
-
-        this.router.navigate(['/login']);
-      });
-
+    .subscribe(() => {
+      this.router.navigate(['/login']);
+    }, error => {
+      this.authStatusListener.next(false);
+    });
   }
 
   login(email: string, password: string) {
     const authData: AuthData = {email, password};
-    this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + 'login', authData)
+    return this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + 'login', authData)
     .subscribe(response => {
       const token = response.token;
       this.token = token;
@@ -66,7 +65,8 @@ export class AuthService {
 
         this.router.navigate(['/list']);
       }
-
+    }, error => {
+      this.authStatusListener.next(false);
     });
   }
 
@@ -127,5 +127,4 @@ export class AuthService {
       userId
     };
   }
-
 }

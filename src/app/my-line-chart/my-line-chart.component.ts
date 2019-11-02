@@ -17,26 +17,26 @@ export class MyLineChartComponent implements OnInit, OnDestroy {
 
   constructor(public transactionsService: TransactionsService) {}
 
-  public lineChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
+  // public lineChartOptions = {
+  //   scaleShowVerticalLines: false,
+  //   responsive: true
+  // };
 
-  lineChartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  public lineChartType = 'line';
-  public lineChartLegend = true;
+  // lineChartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  // public lineChartType = 'line';
+  // public lineChartLegend = true;
 
-  chart: any;
-
-  public lineChartData = [
-    {data: [31, 42, 17, 39, 37, 17, 32, 10, 24], label: 'Travel'},
-    {data: [19, 42, 12, 8, 13, 21, 34, 55, 69], label: 'Food'},
-  ];
+  // public lineChartData = [
+  //   {data: [31, 42, 17, 39, 37, 17, 32, 10, 24], label: 'Travel'},
+  //   {data: [19, 42, 12, 8, 13, 21, 34, 55, 69], label: 'Food'},
+  // ];
 
   totalTransactions = 0;
   transactionsPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 7];
+
+  chart: any;
 
 
   ngOnInit() {

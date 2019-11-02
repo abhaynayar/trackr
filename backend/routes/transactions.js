@@ -18,6 +18,10 @@ router.post('', checkAuth, (req,res,next) => {
       message: 'Trasaction added successfully',
       transactionId: createdTransaction.id
     });
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Creating a transaction failed!'
+    });
   });
 });
 
@@ -35,6 +39,11 @@ router.put('/:id', checkAuth, (req,res,next) => {
     } else {
       res.status(401).json({ message: 'Not Authorized!' });
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Couldn\'t update post!'
+    });
   });
 });
 
@@ -60,6 +69,11 @@ router.get('', checkAuth, (req,res,next) => {
       transactions: fetchedTransactions,
       maxTransactions: count
     })
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Fetching transactions failed!'
+    });
   });
 });
 
@@ -71,6 +85,11 @@ router.get("/:id", checkAuth, (req,res,next) => {
       res.status(404).json({ message: 'Transaction not found!' });
     }
   })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Fetching transaction failed!'
+    });
+  });
 })
 
 router.delete('/:id', checkAuth, (req,res,next) => {
@@ -81,6 +100,11 @@ router.delete('/:id', checkAuth, (req,res,next) => {
     } else {
       res.status(401).json({ message: 'Not Authorized!' });
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Creating a transaction failed!'
+    });
   });
 });
 
