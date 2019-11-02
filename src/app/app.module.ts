@@ -37,11 +37,13 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { TransactionMonthComponent } from './transactions/transaction-month/transaction-month.component';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     TransactionCreateComponent,
     HeaderComponent,
     FooterComponent,

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TransactionsService } from '../transactions.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Transaction } from '../transaction.model';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 export interface Food {
   value: string;
@@ -14,7 +16,7 @@ export interface Food {
   templateUrl: './transaction-create.component.html',
   styleUrls: ['./transaction-create.component.css']
 })
-export class TransactionCreateComponent implements OnInit {
+export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   foods: Food[] = [
     { value: 'food', viewValue: 'Food' },
@@ -32,12 +34,24 @@ export class TransactionCreateComponent implements OnInit {
   enteredAmount = '';
   private mode = 'create';
   private transactionId: string;
+  private authStatusSub: Subscription;
+
   transaction: Transaction;
   isLoading = false;
 
-  constructor(public transactionsService: TransactionsService, public route: ActivatedRoute) {}
+  constructor(
+    public transactionsService: TransactionsService,
+    public route: ActivatedRoute,
+    public authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(
+        authStatus => {
+          this.isLoading = false;
+      });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('transactionId')) {
         this.mode = 'edit';
@@ -72,5 +86,9 @@ export class TransactionCreateComponent implements OnInit {
       this.transactionsService.updateTransaction(this.transactionId, form.value.enteredType, form.value.enteredAmount);
     }
     form.resetForm();
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 }
