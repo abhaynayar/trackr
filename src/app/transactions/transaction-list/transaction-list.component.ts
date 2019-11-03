@@ -18,9 +18,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   transactions: Transaction[] = [];
   isLoading = false;
   totalTransactions = 0;
-  transactionsPerPage = 7;
+  transactionsPerPage = 5;
   currentPage = 1;
-  pageSizeOptions = [1, 3, 7];
+  pageSizeOptions = [1, 3, 5, 10];
   userIsAuthenticated = false;
   userId: string;
 

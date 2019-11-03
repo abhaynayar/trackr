@@ -61,6 +61,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.transaction = {
             id: transactionData._id,
+            date: new Date().toISOString(),
             type: transactionData.type,
             amount: transactionData.amount,
             remark: transactionData.remark,
@@ -85,6 +86,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       this.transactionsService
       .addTransaction
       (
+        new Date().toISOString(),
         form.value.enteredType,
         form.value.enteredAmount,
         form.value.enteredRemark
@@ -94,6 +96,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       .updateTransaction
       (
         this.transactionId,
+        new Date().toISOString(),
         form.value.enteredType,
         form.value.enteredAmount,
         form.value.enteredRemark

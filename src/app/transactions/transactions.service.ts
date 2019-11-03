@@ -27,6 +27,7 @@ export class TransactionsService {
           transactions: transactionData.transactions.map(transaction => {
             return {
               id: transaction._id,
+              date: transaction.date,
               type: transaction.type,
               amount: transaction.amount,
               remark: transaction.remark,
@@ -73,6 +74,7 @@ export class TransactionsService {
   getTransaction(id: string) {
     return this.http.get<{
       _id: string;
+      date: string;
       type: string;
       amount: string;
       remark: string;
@@ -80,16 +82,16 @@ export class TransactionsService {
     }>(BACKEND_URL + id);
   }
 
-  addTransaction(type: string, amount: string, remark: string) {
-    const transaction: Transaction = {id: null, type, amount, remark, creator: null };
+  addTransaction(date: string, type: string, amount: string, remark: string) {
+    const transaction: Transaction = {id: null, date, type, amount, remark, creator: null };
     this.http.post<{message: string, transactionId: string}>(BACKEND_URL, transaction)
     .subscribe((responseData) => {
       this.router.navigate(['/list']);
     });
   }
 
-  updateTransaction(id: string, type: string, amount: string, remark: string) {
-    const transaction: Transaction = { id, type, amount, remark, creator: null };
+  updateTransaction(id: string, date: string, type: string, amount: string, remark: string) {
+    const transaction: Transaction = { id, date, type, amount, remark, creator: null };
     this.http
       .put(BACKEND_URL + id, transaction)
       .subscribe(response => {

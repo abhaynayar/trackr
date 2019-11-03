@@ -13,57 +13,95 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./transaction-month.component.css']
 })
 
-export class TransactionMonthComponent {} /* implements OnInit, OnDestroy {
-
+export class TransactionMonthComponent implements OnInit, OnDestroy {
   transactions: Transaction[] = [];
-  isLoading = false;
-  totalTransactions = 0;
-  transactionsPerPage = 7;
-  currentPage = 1;
-  pageSizeOptions = [1, 3, 7];
-  userIsAuthenticated = false;
-  userId: string;
-
   private transactionsSub: Subscription;
-  private authStatusSub: Subscription;
 
-  constructor(public transactionsService: TransactionsService, private authService: AuthService ) {}
+  hellobro = 0;
 
-  ngOnInit() {
-    this.isLoading = true;
-    this.transactionsService.getTransactions(null, null);
-    this.userId = this.authService.getUserId();
-    this.transactionsSub = this.transactionsService.getTransactionUpdateListener()
-    .subscribe((transactionData: {transactions: Transaction[], transactionCount}) => {
-      this.isLoading = false;
-      this.totalTransactions = transactionData.transactionCount;
-      this.transactions = transactionData.transactions;
-    });
-    this.userIsAuthenticated = this.authService.getIsAuth();
-    this.authStatusSub = this.authService
-      .getAuthStatusListener()
-      .subscribe(isAuthenticated => {
-        this.userIsAuthenticated = isAuthenticated;
-        this.userId = this.authService.getUserId();
-      });
+  constructor(public transactionsService: TransactionsService) {}
+
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+
+  barChartLabels =  [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'
+  ];
+
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData = [
+    {data: [], label: 'food'},
+    {data: [], label: 'travel'},
+    {data: [], label: 'laundry'},
+    {data: [], label: 'shopping'},
+    {data: [], label: 'groceries'},
+  ];
+
+  search(nameKey, prop, myArray) {
+    for (var i=0; i < myArray.length; i++) {
+      if (myArray[i][prop] === nameKey) {
+          return i;
+      }
+    }
+    return -1;
   }
 
-  onChangedPage(pageData: PageEvent) {
-    this.isLoading = true;
-    this.currentPage = pageData.pageIndex + 1;
-    this.transactionsPerPage = pageData.pageSize;
-    this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
+  ngOnInit() {
+    this.transactionsService.getTransactions(null, null);
+    this.transactionsSub = this.transactionsService.getTransactionUpdateListener()
+    .subscribe((transactionData: {transactions: Transaction[], transactionCount}) => {
+      this.transactions = transactionData.transactions;
+      const currentMonth = new Date().getMonth();
+
+      for (var i = 0; i < this.transactions.length; ++i) {
+        const arr = this.transactions[i].date.split('-');
+        const monthIndex =  parseInt(arr[1], 10) - 1;
+        if (monthIndex === currentMonth) {
+          this.hellobro += parseInt(this.transactions[i].amount, 10);
+        }
+
+        // this.barChartData.push({data: [19, 42, 12], label: 'hello'});
+        const type = this.transactions[i].type;
+        const search = this.search(type, 'label', this.barChartData);
+        if (search !== -1) {
+          this.barChartData[search].data[monthIndex] = parseInt(this.transactions[i].amount, 10);
+        } else {
+          this.barChartData.push({data: [], label: type});
+          const search2 = this.search(type, 'label', this.barChartData);
+          this.barChartData[search2].data[monthIndex] = parseInt(this.transactions[i].amount, 10);
+        }
+      }
+
+      // const barChartLabels1 = this.transactions.map(item => item.type);
+      // const barChartData1 = this.transactions.map(item => parseInt(item.amount, 10));
+      // this.barChartLabels = barChartLabels1;
+
+      // this.barChartData = barChartData1;
+      // this.chart = new Chart('canvas', {
+      //   type: 'bar',
+      //   data: {
+      //     datasets: [{
+      //         barPercentage: 0.5,
+      //         barThickness: 6,
+      //         maxBarThickness: 8,
+      //         minBarLength: 2,
+      //         data: [10, 20, 30, 40, 50, 60, 70]
+      //     }]
+      //   },
+      // });
+    });
   }
 
   onDelete(transactionId: string) {
-    this.isLoading = true;
-    this.transactionsService.deleteTransaction(transactionId).subscribe(() => {
-      this.transactionsService.getTransactions(this.transactionsPerPage, this.currentPage);
-    });
+    this.transactionsService.deleteTransaction(transactionId);
   }
 
   ngOnDestroy() {
     this.transactionsSub.unsubscribe();
   }
 }
-*/

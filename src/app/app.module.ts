@@ -38,6 +38,7 @@ import { TransactionMonthComponent } from './transactions/transaction-month/tran
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { HomeComponent } from './home/home.component';
     TransactionMonthComponent,
     LoginComponent,
     SignupComponent,
+    ProfileComponent,
     ErrorComponent,
   ],
   imports: [

@@ -1,3 +1,4 @@
+Most Recent Expenses
 <app-my-line-chart></app-my-line-chart>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <mat-accordion multi="true" *ngIf="transactions.length > 0 && !isLoading">
@@ -7,6 +8,7 @@
     </mat-expansion-panel-header>
     <p>Amount: {{ transaction.amount }}</p>
     <p *ngIf="transaction.remark">Remark: {{ transaction.remark }}</p>
+    <p color="accent">Date: {{ transaction.date.split('T0') }}</p>
     <mat-action-row>
       <a mat-button color="accent" [routerLink]="['/edit', transaction.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(transaction.id)">DELETE</button>

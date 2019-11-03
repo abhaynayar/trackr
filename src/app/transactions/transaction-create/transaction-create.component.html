@@ -23,7 +23,7 @@
         name="enteredAmount"
         placeholder="Amount"
         matInput type="number"
-        required
+        required min=0
         #amount="ngModel">
 
       <mat-error *ngIf="amount.invalid">Please enter amount</mat-error>
