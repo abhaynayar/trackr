@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const transactionSchema = mongoose.Schema({
   type: { type: String, required: true },
   amount: { type: String, required: true },
+  remark: { type: String, required: false },
   creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 });
 

@@ -11,6 +11,7 @@ router.post('', checkAuth, (req,res,next) => {
     _id: req.body.id,
     type: req.body.type,
     amount: req.body.amount,
+    remark: req.body.remark,
     creator: req.userData.userId
   });
   transaction.save().then(createdTransaction => {
@@ -30,6 +31,7 @@ router.put('/:id', checkAuth, (req,res,next) => {
     _id: req.body.id,
     type: req.body.type,
     amount: req.body.amount,
+    remark: req.body.remark,
     creator: req.userData.userId
   });
   Transaction.updateOne({ _id: req.params.id, creator: req.userData.userId }, transaction)

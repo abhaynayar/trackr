@@ -63,6 +63,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
             id: transactionData._id,
             type: transactionData.type,
             amount: transactionData.amount,
+            remark: transactionData.remark,
             creator: transactionData.creator};
         });
       } else {
@@ -81,9 +82,22 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.transactionsService.addTransaction(form.value.enteredType, form.value.enteredAmount);
+      this.transactionsService
+      .addTransaction
+      (
+        form.value.enteredType,
+        form.value.enteredAmount,
+        form.value.enteredRemark
+      );
     } else {
-      this.transactionsService.updateTransaction(this.transactionId, form.value.enteredType, form.value.enteredAmount);
+      this.transactionsService
+      .updateTransaction
+      (
+        this.transactionId,
+        form.value.enteredType,
+        form.value.enteredAmount,
+        form.value.enteredRemark
+      );
     }
     form.resetForm();
   }

@@ -14,11 +14,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 
 export class TransactionListComponent implements OnInit, OnDestroy {
-  // transactions = [
-  //   { type: 'First transaction', amount: 'food' },
-  //   { type: 'Second transaction', amount: 'food' },
-  //   { type: 'Third transaction', amount: 'food' }
-  // ];
 
   transactions: Transaction[] = [];
   isLoading = false;

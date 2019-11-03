@@ -28,6 +28,18 @@
 
       <mat-error *ngIf="amount.invalid">Please enter amount</mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <input
+
+        [ngModel]="transaction?.remark"
+        name="enteredRemark"
+        placeholder="Remark"
+        matInput type="text"
+        #remark="ngModel">
+
+    </mat-form-field>
+
     <button mat-raised-button color="primary" type="submit">
       Add Expense
     </button>

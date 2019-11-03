@@ -5,7 +5,8 @@
     <mat-expansion-panel-header>
       {{ transaction.type }}
     </mat-expansion-panel-header>
-    <p>{{ transaction.amount }}</p>
+    <p>Amount: {{ transaction.amount }}</p>
+    <p *ngIf="transaction.remark">Remark: {{ transaction.remark }}</p>
     <mat-action-row>
       <a mat-button color="accent" [routerLink]="['/edit', transaction.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(transaction.id)">DELETE</button>
