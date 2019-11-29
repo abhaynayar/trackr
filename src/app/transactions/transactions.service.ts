@@ -38,7 +38,6 @@ export class TransactionsService {
         })
       )
       .subscribe((transformedTransactionData) => {
-        console.log(transformedTransactionData);
         this.transactions = transformedTransactionData.transactions;
         this.transactionsUpdated.next({
           transactions: [...this.transactions],
@@ -46,26 +45,6 @@ export class TransactionsService {
         });
       });
   }
-
-  // getTransactionsAll() {
-  //   this.http
-  //     .get<{ message: string; posts: any }>(BACKEND_URL + 'transactions')
-  //     .pipe(
-  //       map(postData => {
-  //         return postData.posts.map(post => {
-  //           return {
-  //             title: post.title,
-  //             content: post.content,
-  //             id: post._id
-  //           };
-  //         });
-  //       })
-  //     )
-  //     .subscribe(transformedPosts => {
-  //       this.posts = transformedPosts;
-  //       this.postsUpdated.next([...this.posts]);
-  //     });
-  // }
 
   getTransactionUpdateListener() {
     return this.transactionsUpdated.asObservable();

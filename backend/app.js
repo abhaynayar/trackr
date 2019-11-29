@@ -18,7 +18,9 @@ mongoose.connect('mongodb+srv://abhay:' + process.env.MONGO_ATLAS_PW + '@trackr-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', express.static(path.join(__dirname, 'angular')));
+
+// uncomment this line for a single server approach
+// app.use('/', express.static(path.join(__dirname, 'angular')));
 
 // for bypassing CORS
 
@@ -31,8 +33,10 @@ app.use((req,res,next) => {
 
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/user', userRoutes);
-app.use((req,res,next) => {
+
+// uncomment this line for a single server approach
+/*app.use((req,res,next) => {
   res.sendFile(path.join(__dirname, 'angular','index.html'));
-});
+});*/
 
 module.exports = app;

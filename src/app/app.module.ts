@@ -11,11 +11,8 @@ import {
   MatSelectModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinner,
   MatProgressSpinnerModule,
   MatPaginatorModule,
-  MatPaginator,
-  MatDialog,
   MatDialogModule,
   MatBottomSheetModule
 } from '@angular/material';
@@ -26,11 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionCreateComponent } from './transactions/transaction-create/transaction-create.component';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { MyBarChartComponent } from './my-bar-chart/my-bar-chart.component';
-import { MyLineChartComponent } from './my-line-chart/my-line-chart.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
-import { TransactionsService } from './transactions/transactions.service';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
@@ -38,7 +31,6 @@ import { TransactionMonthComponent } from './transactions/transaction-month/tran
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -47,14 +39,10 @@ import { ProfileComponent } from './profile/profile.component';
     HomeComponent,
     TransactionCreateComponent,
     HeaderComponent,
-    FooterComponent,
-    MyBarChartComponent,
-    MyLineChartComponent,
     TransactionListComponent,
     TransactionMonthComponent,
     LoginComponent,
     SignupComponent,
-    ProfileComponent,
     ErrorComponent,
   ],
   imports: [

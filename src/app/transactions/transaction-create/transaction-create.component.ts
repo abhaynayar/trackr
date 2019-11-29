@@ -6,7 +6,7 @@ import { Transaction } from '../transaction.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
-export interface Food {
+export interface Activity {
   value: string;
   viewValue: string;
 }
@@ -18,16 +18,10 @@ export interface Food {
 })
 export class TransactionCreateComponent implements OnInit, OnDestroy {
 
-  foods: Food[] = [
-    { value: 'food', viewValue: 'Food' },
-    { value: 'travel', viewValue: 'Travel' },
-    { value: 'laundry', viewValue: 'Laundry' },
-    { value: 'savings', viewValue: 'Savings' },
-    { value: 'groceries', viewValue: 'Groceries' },
-    { value: 'rent', viewValue: 'Rent' },
-    { value: 'medical', viewValue: 'Medical' },
-    { value: 'shopping', viewValue: 'Shopping' },
-    { value: 'misc', viewValue: 'Miscellaneous' }
+  activities: Activity[] = [
+    { value: 'sleep', viewValue: 'Sleep' },
+    { value: 'study', viewValue: 'Study' },
+    { value: 'entertainment', viewValue: 'Entertainment' },
   ];
 
   enteredType = '';
@@ -78,6 +72,11 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   onSaveTransaction(form: NgForm) {
 
     if (form.invalid) {
+      return;
+    }
+
+    if (form.value.enteredAmount <= 0) {
+      alert('Enter positive amount');
       return;
     }
 

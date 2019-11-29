@@ -9,8 +9,8 @@
         required
         #type="ngModel">
 
-        <mat-option *ngFor="let food of foods" [value]="food.value">
-          {{ food.viewValue }}
+        <mat-option *ngFor="let activity of activities" [value]="activity.value">
+          {{ activity.viewValue }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="type.invalid">Please choose Type</mat-error>
@@ -21,7 +21,7 @@
 
         [ngModel]="transaction?.amount"
         name="enteredAmount"
-        placeholder="Amount"
+        placeholder="Amount (in seconds)"
         matInput type="number"
         required min=0
         #amount="ngModel">

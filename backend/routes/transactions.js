@@ -82,42 +82,7 @@ router.get('', checkAuth, (req,res,next) => {
     });
   });
 });
-/*
-router.get('/month/:month', checkAuth, (req,res,next) => {
 
-  const currentMonth = req.params.month;
-
-  const transactionQuery = Transaction.aggregate
-  ([
-    {
-      $group: {
-        _id: {
-          month: { $month: "$date" },
-          day: { $dayOfMonth: "$date" },
-          year: { $year: "$date" }
-        },
-        totalPrice: { $sum: "$amount" },
-        count: { $sum: 1 }
-      }
-    }
-  ]);
-
-  //.find({creator: req.userData.userId});//, "$expr": { "$eq": [{"$month": date}, getMonth()]}})
-  // let fetchedTransactions;
-
-  transactionQuery.then(documents => {
-      res.status(200).json({
-      message: "Transactions fetched succesfully!",
-      transactions: documents
-    })
-  })
-  .catch(error => {
-    res.status(500).json({
-      message: 'Fetching transactions failed!'
-    });
-  });
-});
-*/
 router.get("/:id", checkAuth, (req,res,next) => {
   Transaction.findById(req.params.id).then(transaction => {
     if(transaction) {

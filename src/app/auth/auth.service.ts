@@ -15,11 +15,16 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
   private authStatusListener = new Subject<boolean>();
+  private timeLeft;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
     return this.token;
+  }
+
+  getTimer() {
+    return this.timeLeft;
   }
 
   getIsAuth() {
@@ -48,22 +53,23 @@ export class AuthService {
     const authData: AuthData = {email, password};
     return this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + 'login', authData)
     .subscribe(response => {
-      const token = response.token;
+      const token = response.token; // jwt "token" in response
       this.token = token;
       if (token) {
 
-        const expiresInDuration = response.expiresIn;
+        const expiresInDuration = response.expiresIn; // "expiresIn" in JSON response
         this.setAuthTimer(expiresInDuration);
 
         this.isAuthenticated = true;
-        this.userId = response.userId;
+        this.userId = response.userId; // "userId" in JSON response (MongoDB?)
         this.authStatusListener.next(true);
 
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-        this.saveAuthData(token, expirationDate, this.userId);
+        this.saveAuthData(token, expirationDate, this.userId); // stores response in cookies
+        this.timeLeft = expirationDate;
 
-        this.router.navigate(['/list']);
+        this.router.navigate(['/list']); // request to "/api/transactions/?&pagesize=5&page=1"
       }
     }, error => {
       this.authStatusListener.next(false);
@@ -71,7 +77,7 @@ export class AuthService {
   }
 
   autoAuthUser() {
-    const authInformation = this.getAuthData();
+    const authInformation = this.getAuthData(); // get data from cookies
     if (!authInformation) {
       return;
     }

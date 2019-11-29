@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 // schema
-
 const transactionSchema = mongoose.Schema({
   date: { type: Date, required: true },
   type: { type: String, required: true },
@@ -11,5 +10,4 @@ const transactionSchema = mongoose.Schema({
 });
 
 // model
-
 module.exports = mongoose.model('Transaction', transactionSchema);
